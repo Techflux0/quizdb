@@ -101,11 +101,11 @@
   ],
   "count": 6
 }</code></pre>
-            <a href="quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
         </div>
 
         <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/nodejs_quizzes</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizes/nodejs_quizzes</span></h3>
             <p>Get all quizes from a specific collection</p>
             <h4>Parameters:</h4>
             <ul>
@@ -139,12 +139,12 @@
       "tag": "Node.js"
 
 }</code></pre>
-            <a href="quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
         </div>
 
 
       <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/mongo_quizzes</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizes/mongo_quizzes</span></h3>
             <p>Get all quizes from a specific collection</p>
             <h4>Parameters:</h4>
             <ul>
@@ -177,12 +177,12 @@
       "explanation": null,    
       "tag": "Node.js"
     }</code></pre>
-            <a href="quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
         </div>
 
 
         <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizes/</span></h3>
             <p>Search quizes within a collection</p>
             <h4>Parameters:</h4>
             <ul>
@@ -203,12 +203,12 @@
       "explanation": null,
       "tag": "Node.js"
     }</code></pre>
-            <a href="quizdb-725t.onrender.com/quizes/mysql_quizzes" class="try-button">Search for 'mysql_quizzes'</a>
+            <a href="https://quizdb-725t.onrender.com/quizes/mysql_quizzes" class="try-button">Search for 'mysql_quizzes'</a>
         </div>
 
 
          <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/javascript_quizzes</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizes/javascript_quizzes</span></h3>
             <p>Search quizes within a collection</p>
             <h4>Parameters:</h4>
             <ul>
@@ -242,7 +242,42 @@
       "explanation": null,
       "tag": "Node.js"
     }</code></pre>
-            <a href="quizdb-725t.onrender.com/quizes/javascript_quizzes" class="try-button">Search for 'javascript_quizzes'</a>
+            <a href="https://quizdb-725t.onrender.com/quizes/javascript_quizzes" class="try-button">Search for 'javascript_quizzes'</a>
+        </div>
+
+
+   <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">quizes/python_quizzes</span></h3>
+            <p>Search quizes within a collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection</li>
+                <li><strong>search</strong> - Search term to filter questions</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code> {
+      "_id": "68301a4ca765d36b19c0881f",
+      "question": "Which of the following is NOT a common use case for Python's `asyncio` library?",
+      "choices": {
+        "a": "Handling concurrent network requests",
+        "b": "Managing asynchronous database operations",
+        "c": "Performing CPU-bound computations in parallel",
+        "d": "Implementing event loops for reactive programming"
+      },
+      "correct_answer": "c",
+      "explanation": "`asyncio` is primarily designed for I/O-bound concurrency, not CPU-bound parallelism. For CPU-bound tasks, the `multiprocessing` library is generally more suitable."
+    },
+    {
+      "_id": "68301a6ba765d36b19c08820",
+      "question": "Which of the following best describes the purpose of the `__init__.py` file in a Python package?",
+      "choices": {
+        "a": "It specifies the package's dependencies for installation.",
+        "b": "It prevents the directory from being treated as a regular directory by Python.",
+        "c": "It indicates that the directory should be treated as a Python package and can contain initialization code.",
+        "d": "It automatically compiles the Python code within the package for performance optimization."
+      }
+    }</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes/python_quizzes" class="try-button">Search for 'python_quizzes'</a>
         </div>
     </section>
 
