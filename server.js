@@ -1,87 +1,75 @@
-// Load environment variables first
 require('dotenv').config();
 
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
 
-// Use either environment variable or hardcoded value as fallback
+const app = express();
+
 const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 7000;
-const DB_NAME = 'quizdb';
+const DB_NAME = process.env.DB_NAME || 'quizdb';
 
-console.log('Using MongoDB URI:', MONGO_URI); // Debug log
-console.log('Using port:', PORT); // Debug log
-
-const app = express();
 let db;
-let client; // Store the client for proper cleanup
+let client;
 
-// Connect to MongoDB
 async function connectDB() {
   try {
-    console.log('Attempting to connect to MongoDB...');
+    console.log('Connecting to MongoDB...');
     client = new MongoClient(MONGO_URI, {
       connectTimeoutMS: 5000,
       serverSelectionTimeoutMS: 5000,
+      maxPoolSize: 50 
     });
 
     await client.connect();
     db = client.db(DB_NAME);
-    console.log('✅ Connected to MongoDB');
-    
-    // Verify connection by listing collections
-    const collections = await db.listCollections().toArray();
-    console.log('Available collections:', collections.map(c => c.name));
+    console.log('✅ MongoDB Connected');
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error);
     process.exit(1);
   }
 }
 
-// Middleware
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST']
+}));
+
 app.use(express.json());
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('✅ Quiz API is running');
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy' });
 });
 
-app.get('/quizzes/:collectionName', async (req, res) => {
-  const { collectionName } = req.params;
-  const searchKeyword = req.query.search;
-
-  console.log(`Fetching from ${collectionName}`, searchKeyword ? `with search: ${searchKeyword}` : '');
-
+app.get('/quizes/:collectionName', async (req, res) => {
   try {
-    const collection = db.collection(collectionName);
-    const query = searchKeyword
-      ? { question: { $regex: searchKeyword, $options: 'i' } }
-      : {};
-
-    const quizzes = await collection.find(query).toArray();
+    const collection = db.collection(req.params.collectionName);
+    const quizzes = await collection.find(req.query.search ? {
+      question: { $regex: req.query.search, $options: 'i' }
+    } : {}).toArray();
     res.json(quizzes);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Graceful shutdown
-process.on('SIGINT', async () => {
-  if (client) {
-    await client.close();
-    console.log('MongoDB connection closed');
-  }
-  process.exit(0);
-});
-
-// Start server
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
   });
-}).catch(err => {
-  console.error('Failed to start server:', err);
+
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received. Shutting down gracefully...');
+    server.close(() => {
+      client?.close();
+      console.log('Server closed');
+      process.exit(0);
+    });
+  });
 });
+// Handle uncaught exceptions
