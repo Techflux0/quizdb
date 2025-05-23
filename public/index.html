@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz API Documentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .endpoint {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .get { background-color: #61affe; color: white; }
+        .url {
+            font-family: monospace;
+            background-color: #f8f8f8;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .try-button {
+            display: inline-block;
+            background-color: #2c3e50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .try-button:hover {
+            background-color: #1a252f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quiz API Documentation</h1>
+        <p>Interactive API for accessing quiz questions from various categories</p>
+    </header>
+
+    <section>
+        <h2>Base URL</h2>
+        <p><span class="url" id="baseUrl">https://quizdb-725t.onrender.com</span></p>
+    </section>
+
+    <section>
+        <h2>API Endpoints</h2>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">/</span></h3>
+            <p>API welcome page and documentation</p>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">/quizzes</span></h3>
+            <p>List all available quiz collections</p>
+            <h4>Example Response:</h4>
+            <pre><code>{
+  "success": true,
+  "collections": ["science", "history", "math"],
+  "count": 3
+}</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">https://quizdb-725t.onrender.com/quizes</span></h3>
+            <p>Get all quizzes from a specific collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "science")</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code>{
+  "success": true,
+  "collection": "science",
+  "count": 10,
+  "data": [
+    {
+      "question": "What is the chemical symbol for gold?",
+      "options": ["Au", "Ag", "Pb", "Fe"],
+      "answer": "Au"
+    }
+    // ... more questions
+  ]
+}</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Science Quiz</a>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">https://quizdb-725t.onrender.com/quizes/</span></h3>
+            <p>Search quizzes within a collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection</li>
+                <li><strong>search</strong> - Search term to filter questions</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code>{
+  "success": true,
+  "collection": "science",
+  "count": 2,
+  "data": [
+    {
+      "question": "What is the chemical symbol for gold?",
+      "options": ["Au", "Ag", "Pb", "Fe"],
+      "answer": "Au"
+    }
+  ]
+}</code></pre>
+            <a href="https://quizdb-725t.onrender.com" class="try-button">Search for 'gold'</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Quiz API. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Update base URL dynamically
+        document.getElementById('baseUrl').textContent = window.location.origin;
+    </script>
+</body>
+</html>
