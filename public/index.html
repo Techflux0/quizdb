@@ -95,6 +95,8 @@
     "mysql_quizzes",
     "nodejs_quizzes",
     "mongo_quizzes",
+    "php_quizzes",
+    "python_quizzes",
     "javascript_quizzes",
     "gemini_java_quizzes",
     "gemini_nodejs_quizzes"
@@ -139,7 +141,7 @@
       "tag": "Node.js"
 
 }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
+            <a href="https://quizdb-725t.onrender.com/quizes/nodejs_quizzes" class="try-button">Try Nodejs Quiz</a>
         </div>
 
 
@@ -278,6 +280,43 @@
       }
     }</code></pre>
             <a href="https://quizdb-725t.onrender.com/quizes/python_quizzes" class="try-button">Search for 'python_quizzes'</a>
+        </div>
+
+
+           <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">quizes/php_quizzes</span></h3>
+            <p>Search quizes within a collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection</li>
+                <li><strong>search</strong> - Search term to filter questions</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code> {
+      "_id": "68302007b55baa6aaf03fe1b",
+      "question": "Which of the following is NOT a recognized dependency management tool commonly used in PHP projects?",
+      "choices": {
+        "a": "Composer",
+        "b": "npm",
+        "c": "PEAR",
+        "d": "Packagist"
+      },
+      "correct_answer": "d",
+      "explanation": "Packagist is a package repository, not a dependency management tool itself. Composer uses Packagist as its primary source for packages. PEAR is a legacy package manager, and npm is the Node.js package manager, not commonly used in PHP."
+    },
+    {
+      "_id": "68302012b55baa6aaf03fe1c",
+      "question": "Which of the following accurately describes the purpose of the 'PSR' standards in PHP?",
+      "choices": {
+        "a": "To enforce a single, universally adopted PHP framework.",
+        "b": "To provide recommendations for common interfaces and coding styles, promoting interoperability between PHP projects.",
+        "c": "To outline the mandatory security protocols for all PHP applications.",
+        "d": "To mandate the use of specific ORM solutions for database interactions."
+      },
+      "correct_answer": "b",
+      "explanation": "PSR (PHP Standards Recommendations) are a set of specifications published by the PHP-FIG to ensure a high level of interoperability between shared PHP code. They offer coding style guides, autoloading strategies, and interface implementations, enabling different libraries and frameworks to work together seamlessly."
+    }</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes/php_quizzes" class="try-button">Search for 'php_quizzes'</a>
         </div>
     </section>
 
