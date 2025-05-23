@@ -91,38 +91,98 @@
             <h4>Example Response:</h4>
             <pre><code>{
   "success": true,
-  "collections": ["science", "history", "math"],
-  "count": 3
+  "collections": [
+    "mysql_quizzes",
+    "nodejs_quizzes",
+    "mongo_quizzes",
+    "javascript_quizzes",
+    "gemini_java_quizzes",
+    "gemini_nodejs_quizzes"
+  ],
+  "count": 6
 }</code></pre>
             <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
         </div>
 
         <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">https://quizdb-725t.onrender.com/quizes</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/nodejs_quizzes</span></h3>
             <p>Get all quizes from a specific collection</p>
             <h4>Parameters:</h4>
             <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "science")</li>
+                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "nodejs")</li>
             </ul>
             <h4>Example Response:</h4>
-            <pre><code>{
-  "success": true,
-  "collection": "science",
-  "count": 10,
-  "data": [
+            <pre><code> {
+      "_id": "682fd987f31fe0cc8a024780",
+      "question": "Which of the following is a core module in Node?",
+      "choices": {
+        "answer_a": "webpack",
+        "answer_b": "crypto",
+        "answer_c": "request",
+        "answer_d": "chalk"
+      },
+      "correct_answer": "answer_b",
+      "explanation": "From flaviocopes docs: [reference](https://flaviocopes.com/node-core-modules/)",
+      "tag": "Node.js"
+    },
     {
-      "question": "What is the chemical symbol for gold?",
-      "options": ["Au", "Ag", "Pb", "Fe"],
-      "answer": "Au"
-    }
-    // ... more questions
-  ]
+      "_id": "682fd987f31fe0cc8a024781",
+      "question": "What is the purpose of the 'fs' module in Node.js?",
+      "choices": {
+        "answer_a": "File system operations",
+        "answer_b": "Network requests",
+        "answer_c": "Database connections",
+        "answer_d": "Web server"
+      },
+      "correct_answer": "answer_a",
+      "explanation": null,
+      "tag": "Node.js"
+
 }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Science Quiz</a>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
         </div>
 
+
+      <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/mongo_quizzes</span></h3>
+            <p>Get all quizes from a specific collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "MongoDB")</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code>   {
+      "_id": "682fdbb9a34f39991845b5e6",
+      "question": "Which command adds members to the replica set from MongoDB shell?",
+      "choices": {
+        "answer_a": "`rs.add(\"\u003Chostname\u003E\")`",
+        "answer_b": "`replicaSetAdd(\"\u003Chostname\u003E\")`",
+        "answer_c": "`rs.insert(\"\u003Chostname\u003E\")`",
+        "answer_d": "`replica.add(\"\u003Chostname\u003E\")`"
+      },
+      "correct_answer": "answer_a",
+      "explanation": null,
+      "tag": "Node.js"
+    },
+    {
+      "_id": "682fdbb9a34f39991845b5e7",
+      "question": "Which MongoDB shell command should you use to back up a database?",
+      "choices": {
+        "answer_a": "restore",
+        "answer_b": "backup",
+        "answer_c": "mongobackup",
+        "answer_d": "mongodump"
+      },
+      "correct_answer": "answer_d",
+      "explanation": null,    
+      "tag": "Node.js"
+    }</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
+        </div>
+
+
         <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">https://quizdb-725t.onrender.com/quizes/</span></h3>
+            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/</span></h3>
             <p>Search quizes within a collection</p>
             <h4>Parameters:</h4>
             <ul>
@@ -131,18 +191,58 @@
             </ul>
             <h4>Example Response:</h4>
             <pre><code>{
-  "success": true,
-  "collection": "science",
-  "count": 2,
-  "data": [
+      "_id": "682fda74ab6125cf4d63445c",
+      "question": "You need to export the entire database, including the database objects, in addition to the data. Which command-line tool do you use?",
+      "choices": {
+        "answer_a": "mysqlexport",
+        "answer_b": "mysqladmin",
+        "answer_c": "mysqldump",
+        "answer_d": "mysqld"
+      },
+      "correct_answer": "answer_c",
+      "explanation": null,
+      "tag": "Node.js"
+    }</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes/mysql_quizzes" class="try-button">Search for 'mysql_quizzes'</a>
+        </div>
+
+
+         <div class="endpoint">
+            <h3><span class="method get">GET</span> <span class="url">quizdb-725t.onrender.com/quizes/javascript_quizzes</span></h3>
+            <p>Search quizes within a collection</p>
+            <h4>Parameters:</h4>
+            <ul>
+                <li><strong>collectionName</strong> - Name of the quiz collection</li>
+                <li><strong>search</strong> - Search term to filter questions</li>
+            </ul>
+            <h4>Example Response:</h4>
+            <pre><code> {
+      "_id": "682fdcb286f4354b72b3d588",
+      "question": "How does a function create a closure?",
+      "choices": {
+        "answer_a": "It reloads the document whenever the value changes.",
+        "answer_b": "It returns a reference to a variable in its parent scope.",
+        "answer_c": "It completes execution without returning.",
+        "answer_d": "It copies a local variable to the global scope."
+      },
+      "correct_answer": "answer_b",
+      "explanation": null,
+      "tag": "Node.js"
+    },
     {
-      "question": "What is the chemical symbol for gold?",
-      "options": ["Au", "Ag", "Pb", "Fe"],
-      "answer": "Au"
-    }
-  ]
-}</code></pre>
-            <a href="https://quizdb-725t.onrender.com" class="try-button">Search for 'gold'</a>
+      "_id": "682fdcb386f4354b72b3d589",
+      "question": "Which statement creates a new function called discountPrice?",
+      "choices": {
+        "answer_a": "`A`",
+        "answer_b": "`B`",
+        "answer_c": "`C`",
+        "answer_d": "`D`"
+      },
+      "correct_answer": "answer_d",
+      "explanation": null,
+      "tag": "Node.js"
+    }</code></pre>
+            <a href="https://quizdb-725t.onrender.com/quizes/javascript_quizzes" class="try-button">Search for 'javascript_quizzes'</a>
         </div>
     </section>
 
