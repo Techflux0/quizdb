@@ -1,332 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz API Documentation</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        h1 {
-            margin: 0;
-        }
-        .endpoint {
-            background-color: white;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .method {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 3px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .get { background-color: #61affe; color: white; }
-        .url {
-            font-family: monospace;
-            background-color: #f8f8f8;
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        pre {
-            background-color: #f8f8f8;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        .try-button {
-            display: inline-block;
-            background-color: #2c3e50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-        .try-button:hover {
-            background-color: #1a252f;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      margin: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 0.5rem;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: #45a049;
+    }
+    
+    .tab-container {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .tab {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .tab.active {
+      border-bottom: 2px solid #4CAF50;
+      color: #4CAF50;
+    }
+    
+    .form-container {
+      display: none;
+    }
+    
+    .form-container.active {
+      display: block;
+    }
+    
+    #app-content {
+      display: none;
+    }
+    
+    .error {
+      color: red;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .success {
+      color: #4CAF50;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+        margin: 0.5rem;
+      }
+      
+      .tab {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+      
+      input, button {
+        padding: 0.65rem;
+      }
+    }
+    
+    /* Password strength indicator */
+    .password-strength {
+      margin-top: 0.25rem;
+      height: 4px;
+      background: #eee;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .strength-bar {
+      height: 100%;
+      width: 0%;
+      background: red;
+      transition: width 0.3s, background 0.3s;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Quiz API Documentation</h1>
-        <p>Interactive API for accessing quiz questions from various categories</p>
-    </header>
-
-    <section>
-        <h2>Base URL</h2>
-        <p><span class="url" id="baseUrl">https://quizdb-725t.onrender.com</span></p>
-    </section>
-
-    <section>
-        <h2>API Endpoints</h2>
-
-        <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">/</span></h3>
-            <p>API welcome page and documentation</p>
-            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
+  <div id="auth-container" class="container">
+    <div class="tab-container">
+      <div class="tab active" onclick="switchTab('login')">Login</div>
+      <div class="tab" onclick="switchTab('register')">Register</div>
+    </div>
+    
+    <div id="login-form" class="form-container active">
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" placeholder="Enter your username">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password">
+      </div>
+      <button onclick="login()">Login</button>
+      <div id="login-error" class="error"></div>
+    </div>
+    
+    <div id="register-form" class="form-container">
+      <div class="form-group">
+        <label for="register-username">Username</label>
+        <input type="text" id="register-username" placeholder="Choose a username">
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" placeholder="Choose a password (min 8 chars)" 
+               oninput="checkPasswordStrength(this.value)">
+        <div class="password-strength">
+          <div class="strength-bar" id="password-strength-bar"></div>
         </div>
-
-        <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">/quizes</span></h3>
-            <p>List all available quiz collections</p>
-            <h4>Example Response:</h4>
-            <pre><code>{
-  "success": true,
-  "collections": [
-    "mysql_quizzes",
-    "nodejs_quizzes",
-    "mongo_quizzes",
-    "php_quizzes",
-    "python_quizzes",
-    "javascript_quizzes",
-    "gemini_java_quizzes",
-    "gemini_nodejs_quizzes"
-  ],
-  "count": 6
-}</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try it</a>
-        </div>
-
-        <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/nodejs_quizzes</span></h3>
-            <p>Get all quizes from a specific collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "nodejs")</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code> {
-      "_id": "682fd987f31fe0cc8a024780",
-      "question": "Which of the following is a core module in Node?",
-      "choices": {
-        "answer_a": "webpack",
-        "answer_b": "crypto",
-        "answer_c": "request",
-        "answer_d": "chalk"
-      },
-      "correct_answer": "answer_b",
-      "explanation": "From flaviocopes docs: [reference](https://flaviocopes.com/node-core-modules/)",
-      "tag": "Node.js"
-    },
-    {
-      "_id": "682fd987f31fe0cc8a024781",
-      "question": "What is the purpose of the 'fs' module in Node.js?",
-      "choices": {
-        "answer_a": "File system operations",
-        "answer_b": "Network requests",
-        "answer_c": "Database connections",
-        "answer_d": "Web server"
-      },
-      "correct_answer": "answer_a",
-      "explanation": null,
-      "tag": "Node.js"
-
-}</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes/nodejs_quizzes" class="try-button">Try Nodejs Quiz</a>
-        </div>
-
-
-      <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/mongo_quizzes</span></h3>
-            <p>Get all quizes from a specific collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection (e.g. "MongoDB")</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code>   {
-      "_id": "682fdbb9a34f39991845b5e6",
-      "question": "Which command adds members to the replica set from MongoDB shell?",
-      "choices": {
-        "answer_a": "`rs.add(\"\u003Chostname\u003E\")`",
-        "answer_b": "`replicaSetAdd(\"\u003Chostname\u003E\")`",
-        "answer_c": "`rs.insert(\"\u003Chostname\u003E\")`",
-        "answer_d": "`replica.add(\"\u003Chostname\u003E\")`"
-      },
-      "correct_answer": "answer_a",
-      "explanation": null,
-      "tag": "Node.js"
-    },
-    {
-      "_id": "682fdbb9a34f39991845b5e7",
-      "question": "Which MongoDB shell command should you use to back up a database?",
-      "choices": {
-        "answer_a": "restore",
-        "answer_b": "backup",
-        "answer_c": "mongobackup",
-        "answer_d": "mongodump"
-      },
-      "correct_answer": "answer_d",
-      "explanation": null,    
-      "tag": "Node.js"
-    }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes" class="try-button">Try Nodejs Quiz</a>
-        </div>
-
-
-        <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/</span></h3>
-            <p>Search quizes within a collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection</li>
-                <li><strong>search</strong> - Search term to filter questions</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code>{
-      "_id": "682fda74ab6125cf4d63445c",
-      "question": "You need to export the entire database, including the database objects, in addition to the data. Which command-line tool do you use?",
-      "choices": {
-        "answer_a": "mysqlexport",
-        "answer_b": "mysqladmin",
-        "answer_c": "mysqldump",
-        "answer_d": "mysqld"
-      },
-      "correct_answer": "answer_c",
-      "explanation": null,
-      "tag": "Node.js"
-    }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes/mysql_quizzes" class="try-button">Search for 'mysql_quizzes'</a>
-        </div>
-
-
-         <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/javascript_quizzes</span></h3>
-            <p>Search quizes within a collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection</li>
-                <li><strong>search</strong> - Search term to filter questions</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code> {
-      "_id": "682fdcb286f4354b72b3d588",
-      "question": "How does a function create a closure?",
-      "choices": {
-        "answer_a": "It reloads the document whenever the value changes.",
-        "answer_b": "It returns a reference to a variable in its parent scope.",
-        "answer_c": "It completes execution without returning.",
-        "answer_d": "It copies a local variable to the global scope."
-      },
-      "correct_answer": "answer_b",
-      "explanation": null,
-      "tag": "Node.js"
-    },
-    {
-      "_id": "682fdcb386f4354b72b3d589",
-      "question": "Which statement creates a new function called discountPrice?",
-      "choices": {
-        "answer_a": "`A`",
-        "answer_b": "`B`",
-        "answer_c": "`C`",
-        "answer_d": "`D`"
-      },
-      "correct_answer": "answer_d",
-      "explanation": null,
-      "tag": "Node.js"
-    }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes/javascript_quizzes" class="try-button">Search for 'javascript_quizzes'</a>
-        </div>
-
-
-   <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/python_quizzes</span></h3>
-            <p>Search quizes within a collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection</li>
-                <li><strong>search</strong> - Search term to filter questions</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code> {
-      "_id": "68301a4ca765d36b19c0881f",
-      "question": "Which of the following is NOT a common use case for Python's `asyncio` library?",
-      "choices": {
-        "a": "Handling concurrent network requests",
-        "b": "Managing asynchronous database operations",
-        "c": "Performing CPU-bound computations in parallel",
-        "d": "Implementing event loops for reactive programming"
-      },
-      "correct_answer": "c",
-      "explanation": "`asyncio` is primarily designed for I/O-bound concurrency, not CPU-bound parallelism. For CPU-bound tasks, the `multiprocessing` library is generally more suitable."
-    },
-    {
-      "_id": "68301a6ba765d36b19c08820",
-      "question": "Which of the following best describes the purpose of the `__init__.py` file in a Python package?",
-      "choices": {
-        "a": "It specifies the package's dependencies for installation.",
-        "b": "It prevents the directory from being treated as a regular directory by Python.",
-        "c": "It indicates that the directory should be treated as a Python package and can contain initialization code.",
-        "d": "It automatically compiles the Python code within the package for performance optimization."
+      </div>
+      <div class="form-group">
+        <label for="register-confirm-password">Confirm Password</label>
+        <input type="password" id="register-confirm-password" placeholder="Confirm your password"
+               oninput="checkPasswordMatch()">
+        <div id="password-match-error" class="error"></div>
+      </div>
+      <button onclick="register()">Register</button>
+      <div id="register-error" class="error"></div>
+    </div>
+    
+    <div id="otp-form" class="form-container" style="display: none;">
+      <div class="form-group">
+        <p class="success">We've sent an OTP to your email at <span id="otp-email-display"></span></p>
+        <label for="otp-code">OTP Code</label>
+        <input type="text" id="otp-code" placeholder="Enter 6-digit OTP">
+      </div>
+      <button onclick="verifyOtp()">Verify</button>
+      <div id="otp-error" class="error"></div>
+      <p style="text-align: center; margin-top: 1rem;">
+        Didn't receive OTP? <a href="#" onclick="resendOtp()">Resend</a>
+      </p>
+    </div>
+  </div>
+  
+  <div id="app-content" class="container">
+    <h1 style="margin-top: 0;">Welcome to Quiz App</h1>
+    <p>You are logged in as <strong><span id="username-display"></span></strong></p>
+    <button onclick="logout()">Logout</button>
+    <div id="quiz-content" style="margin-top: 1.5rem;"></div>
+  </div>
+  
+  <script>
+    let currentUser = null;
+    let currentEmail = null;
+    
+    // Check if user is already logged in
+    checkAuth();
+    
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.form-container').forEach(form => form.style.display = 'none');
+      
+      if (tabName === 'login') {
+        document.querySelector('.tab:nth-child(1)').classList.add('active');
+        document.getElementById('login-form').style.display = 'block';
+      } else {
+        document.querySelector('.tab:nth-child(2)').classList.add('active');
+        document.getElementById('register-form').style.display = 'block';
       }
-    }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes/python_quizzes" class="try-button">Search for 'python_quizzes'</a>
-        </div>
-
-
-           <div class="endpoint">
-            <h3><span class="method get">GET</span> <span class="url">quizes/php_quizzes</span></h3>
-            <p>Search quizes within a collection</p>
-            <h4>Parameters:</h4>
-            <ul>
-                <li><strong>collectionName</strong> - Name of the quiz collection</li>
-                <li><strong>search</strong> - Search term to filter questions</li>
-            </ul>
-            <h4>Example Response:</h4>
-            <pre><code> {
-      "_id": "68302007b55baa6aaf03fe1b",
-      "question": "Which of the following is NOT a recognized dependency management tool commonly used in PHP projects?",
-      "choices": {
-        "a": "Composer",
-        "b": "npm",
-        "c": "PEAR",
-        "d": "Packagist"
-      },
-      "correct_answer": "d",
-      "explanation": "Packagist is a package repository, not a dependency management tool itself. Composer uses Packagist as its primary source for packages. PEAR is a legacy package manager, and npm is the Node.js package manager, not commonly used in PHP."
-    },
-    {
-      "_id": "68302012b55baa6aaf03fe1c",
-      "question": "Which of the following accurately describes the purpose of the 'PSR' standards in PHP?",
-      "choices": {
-        "a": "To enforce a single, universally adopted PHP framework.",
-        "b": "To provide recommendations for common interfaces and coding styles, promoting interoperability between PHP projects.",
-        "c": "To outline the mandatory security protocols for all PHP applications.",
-        "d": "To mandate the use of specific ORM solutions for database interactions."
-      },
-      "correct_answer": "b",
-      "explanation": "PSR (PHP Standards Recommendations) are a set of specifications published by the PHP-FIG to ensure a high level of interoperability between shared PHP code. They offer coding style guides, autoloading strategies, and interface implementations, enabling different libraries and frameworks to work together seamlessly."
-    }</code></pre>
-            <a href="https://quizdb-725t.onrender.com/quizes/php_quizzes" class="try-button">Search for 'php_quizzes'</a>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2025 Quiz API. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Update base URL dynamically
-        document.getElementById('baseUrl').textContent = window.location.origin;
-    </script>
+    }
+    
+    function checkPasswordStrength(password) {
+      const strengthBar = document.getElementById('password-strength-bar');
+      let strength = 0;
+      
+      if (password.length >= 8) strength += 1;
+      if (password.length >= 12) strength += 1;
+      if (/[A-Z]/.test(password)) strength += 1;
+      if (/[0-9]/.test(password)) strength += 1;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+      
+      const width = strength * 20;
+      let color = 'red';
+      if (strength >= 3) color = 'orange';
+      if (strength >= 5) color = 'green';
+      
+      strengthBar.style.width = `${width}%`;
+      strengthBar.style.background = color;
+    }
+    
+    function checkPasswordMatch() {
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const errorElement = document.getElementById('password-match-error');
+      
+      if (confirmPassword && password !== confirmPassword) {
+        errorElement.textContent = 'Passwords do not match';
+      } else {
+        errorElement.textContent = '';
+      }
+    }
+    
+    async function register() {
+      const username = document.getElementById('register-username').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const errorElement = document.getElementById('register-error');
+      
+      errorElement.textContent = '';
+      
+      // Validate fields
+      if (!username || !email || !password || !confirmPassword) {
+        errorElement.textContent = 'All fields are required';
+        return;
+      }
+      
+      if (password !== confirmPassword) {
+        errorElement.textContent = 'Passwords do not match';
+        return;
+      }
+      
+      if (password.length < 8) {
+        errorElement.textContent = 'Password must be at least 8 characters';
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password, confirmPassword })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Registration failed');
+        }
+        
+        currentEmail = email;
+        // Show OTP form
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('otp-form').style.display = 'block';
+        document.getElementById('otp-email-display').textContent = email;
+        
+      } catch (error) {
+        errorElement.textContent = error.message;
+      }
+    }
+    
+    async function verifyOtp() {
+      const otp = document.getElementById('otp-code').value;
+      const errorElement = document.getElementById('otp-error');
+      
+      errorElement.textContent = '';
+      
+      if (!otp || otp.length !== 6) {
+        errorElement.textContent = 'Please enter a valid 6-digit OTP';
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, otp })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Verification failed');
+        }
+        
+        // After verification, switch to login
+        switchTab('login');
+        document.getElementById('otp-form').style.display = 'none';
+        document.getElementById('login-error').textContent = '';
+        document.getElementById('login-username').value = '';
+        document.getElementById('login-password').value = '';
+        alert('Email verified successfully! Please login.');
+        
+      } catch (error) {
+        errorElement.textContent = error.message;
+      }
+    }
+    
+    async function resendOtp() {
+      const errorElement = document.getElementById('otp-error');
+      
+      errorElement.textContent = '';
+      
+      try {
+        const response = await fetch('/api/resend-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to resend OTP');
+        }
+        
+        errorElement.textContent = '';
+        errorElement.classList.remove('error');
+        errorElement.classList.add('success');
+        errorElement.textContent = 'New OTP sent successfully!';
+        
+        setTimeout(() => {
+          errorElement.textContent = '';
+          errorElement.classList.remove('success');
+        }, 3000);
+        
+      } catch (error) {
+        errorElement.textContent = error.message;
+      }
+    }
+    
+    async function login() {
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      const errorElement = document.getElementById('login-error');
+      
+      errorElement.textContent = '';
+      
+      if (!username || !password) {
+        errorElement.textContent = 'Both fields are required';
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Login failed');
+        }
+        
+        // Store the token in localStorage
+        localStorage.setItem('quizToken', data.token);
+        currentUser = data.user;
+        
+        // Show the app content
+        showAppContent();
+        
+      } catch (error) {
+        errorElement.textContent = error.message;
+      }
+    }
+    
+    async function checkAuth() {
+      const token = localStorage.getItem('quizToken');
+      if (!token) return;
+      
+      try {
+        const response = await fetch('/api/check-auth', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error('Not authenticated');
+        }
+        
+        currentUser = data.user;
+        showAppContent();
+        
+      } catch (error) {
+        localStorage.removeItem('quizToken');
+      }
+    }
+    
+function showAppContent() {
+  window.location.href = 'main.html';
+}
+    
+    function logout() {
+      localStorage.removeItem('quizToken');
+      currentUser = null;
+      document.getElementById('auth-container').style.display = 'block';
+      document.getElementById('app-content').style.display = 'none';
+      switchTab('login');
+      
+      // Clear form fields
+      document.getElementById('login-username').value = '';
+      document.getElementById('login-password').value = '';
+      document.getElementById('login-error').textContent = '';
+    }
+    
+    async function loadQuizzes() {
+      try {
+        const token = localStorage.getItem('quizToken');
+        const response = await fetch('/quizes', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load quizzes');
+        }
+        
+        const quizContent = document.getElementById('quiz-content');
+        quizContent.innerHTML = `
+          <h2 style="margin-bottom: 1rem;">Available Quizzes (${data.count})</h2>
+          <ul style="list-style-type: none; padding: 0;">
+            ${data.collections.map(quiz => `
+              <li style="padding: 0.75rem; background: #f9f9f9; margin-bottom: 0.5rem; border-radius: 4px;">
+                ${quiz}
+                <button onclick="startQuiz('${quiz}')" style="float: right; padding: 0.25rem 0.5rem; font-size: 0.8rem;">Start</button>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+        
+      } catch (error) {
+        console.error('Error loading quizzes:', error);
+        document.getElementById('quiz-content').innerHTML = `
+          <p class="error">Failed to load quizzes. Please try again.</p>
+        `;
+      }
+    }
+    
+    function startQuiz(quizName) {
+      alert(`Starting quiz: ${quizName}`);
+      // You can implement the quiz starting logic here
+    }
+  </script>
 </body>
 </html>
