@@ -129,67 +129,73 @@
   </style>
 </head>
 <body>
-  <div id="auth-container" class="container">
-    <div class="tab-container">
-      <div class="tab active" onclick="switchTab('login')">Login</div>
-      <div class="tab" onclick="switchTab('register')">Register</div>
-    </div>
-    
-    <div id="login-form" class="form-container active">
-      <div class="form-group">
-        <label for="login-username">Username</label>
-        <input type="text" id="login-username" placeholder="Enter username">
-      </div>
-      <div class="form-group">
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" placeholder="Enter password">
-      </div>
-      <button onclick="login()">Login</button>
-      <div id="login-error" class="error"></div>
-    </div>
-    
-    <div id="register-form" class="form-container">
-      <div class="form-group">
-        <label for="register-username">Username</label>
-        <input type="text" id="register-username" placeholder="Choose username">
-      </div>
-      <div class="form-group">
-        <label for="register-email">Email</label>
-        <input type="email" id="register-email" placeholder="Enter email">
-      </div>
-      <div class="form-group">
-        <label for="register-password">Password</label>
-        <input type="password" id="register-password" placeholder="Password (min 8 chars)">
-      </div>
-      <div class="form-group">
-        <label for="register-confirm-password">Confirm Password</label>
-        <input type="password" id="register-confirm-password" placeholder="Confirm password">
-        <div id="password-match-error" class="error"></div>
-      </div>
-      <button onclick="register()">Register</button>
-      <div id="register-error" class="error"></div>
-    </div>
-    
-    <div id="otp-form" class="form-container" style="display: none;">
-      <div class="form-group">
-        <p class="success">OTP sent to <span id="otp-email-display"></span></p>
-        <label for="otp-code">OTP Code</label>
-        <input type="text" id="otp-code" placeholder="Enter 6-digit OTP">
-      </div>
-      <button onclick="verifyOtp()">Verify</button>
-      <div id="otp-error" class="error"></div>
-      <p style="text-align: center; margin-top: 0.8rem; font-size: 0.8rem;">
-        No OTP? <a href="#" onclick="resendOtp()">Resend</a>
-      </p>
-    </div>
+ <div id="auth-container" class="container">
+  <h1 style="text-align: center;">Welcome to QuizAPI</h1>
+  <p style="text-align: center; max-width: 400px; margin: 0 auto 20px;">
+    Sign in or create an account to access exciting quizzes, develop with us, and complete!
+  </p>
+
+  <div class="tab-container">
+    <div class="tab active" onclick="switchTab('login')">Login</div>
+    <div class="tab" onclick="switchTab('register')">Register</div>
   </div>
+
+  <div id="login-form" class="form-container active">
+    <div class="form-group">
+      <label for="login-username">Username</label>
+      <input type="text" id="login-username" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="Enter password">
+    </div>
+    <button onclick="login()">Login</button>
+    <div id="login-error" class="error"></div>
+  </div>
+
+  <div id="register-form" class="form-container">
+    <div class="form-group">
+      <label for="register-username">Username</label>
+      <input type="text" id="register-username" placeholder="Choose username">
+    </div>
+    <div class="form-group">
+      <label for="register-email">Email</label>
+      <input type="email" id="register-email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+      <label for="register-password">Password</label>
+      <input type="password" id="register-password" placeholder="Password (min 8 chars)">
+    </div>
+    <div class="form-group">
+      <label for="register-confirm-password">Confirm Password</label>
+      <input type="password" id="register-confirm-password" placeholder="Confirm password">
+      <div id="password-match-error" class="error"></div>
+    </div>
+    <button onclick="register()">Register</button>
+    <div id="register-error" class="error"></div>
+  </div>
+
+  <div id="otp-form" class="form-container" style="display: none;">
+    <div class="form-group">
+      <p class="success">OTP sent to <span id="otp-email-display"></span></p>
+      <label for="otp-code">OTP Code</label>
+      <input type="text" id="otp-code" placeholder="Enter 6-digit OTP">
+    </div>
+    <button onclick="verifyOtp()">Verify</button>
+    <div id="otp-error" class="error"></div>
+    <p style="text-align: center; margin-top: 0.8rem; font-size: 0.8rem;">
+      No OTP? <a href="#" onclick="resendOtp()">Resend</a>
+    </p>
+  </div>
+</div>
+
   
-  <div id="app-content" class="container">
+  <!-- <div id="app-content" class="container">
     <h1 style="margin-top: 0;">Welcome to Quiz App</h1>
     <p>You are logged in as <strong><span id="username-display"></span></strong></p>
     <button onclick="logout()">Logout</button>
     <div id="quiz-content" style="margin-top: 1.5rem;"></div>
-  </div>
+  </div> -->
   
   <script>
     let currentUser = null;
@@ -477,5 +483,6 @@ function showAppContent() {
       // You can implement the quiz starting logic here
     }
   </script>
+  
 </body>
 </html>
