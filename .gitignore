@@ -8,3 +8,4 @@ coverage
 .idea
 .fetch-client
 .vscode
+.test
